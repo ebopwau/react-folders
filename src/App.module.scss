@@ -1,0 +1,15 @@
+.app {
+    color: #dd2ddd;
+    text-align: center;
+    animation: fade-in 3s ease;
+}
+
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

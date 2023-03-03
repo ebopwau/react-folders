@@ -1,0 +1,20 @@
+{
+  "presets": [
+    "@babel/react",
+    "@babel/preset-typescript",
+    ["@babel/env", { "modules": "auto" }]
+  ],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "extensions": [".ts", ".tsx"],
+        "root": ["./src"],
+        "alias": {
+          "root": ".",
+          "src": "/src"
+        }
+      }
+    ]
+  ]
+}

@@ -32,14 +32,16 @@
     "@types/node": "^16.11.26",
     "@types/react": "^17.0.40",
     "@types/react-dom": "^17.0.13",
+    "@types/react-redux": "^7.1.25",
+    "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.27.1",
     "@typescript-eslint/parser": "^5.27.1",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
     "autoprefixer": "^10.4.7",
     "babel-loader": "^8.2.5",
     "babel-plugin-module-resolver": "^4.1.0",
+    "babel-plugin-styled-components": "^2.0.7",
     "css-loader": "^6.7.1",
-    "css-minimizer-webpack-plugin": "^4.0.0",
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.6.2",
     "eslint": "^8.11.0",
@@ -65,8 +67,13 @@
     "webpack-dev-server": "^4.7.3"
   },
   "dependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "@reduxjs/toolkit": "^1.9.3",
+    "@styled-icons/bootstrap": "^10.47.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
+    "redux-saga": "^1.2.2",
+    "styled-components": "^5.3.8"
   },
   "browserslist": {
     "production": [
@@ -81,6 +88,9 @@
       "last 1 safari version",
       "IE 11"
     ]
+  },
+  "resolutions": {
+    "styled-components": "^5"
   },
   "jest": {
     "watchPathIgnorePatterns": [

@@ -1,1 +1,3 @@
-export { LazyComponent } from './LazyComponent';
+import { Folder } from './Folder';
+
+export { Folder };

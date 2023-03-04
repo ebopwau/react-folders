@@ -2,8 +2,6 @@ const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const PATHS = {
     app: './src/index.tsx',
@@ -33,7 +31,6 @@ module.exports = {
                 exclude: /node_modules/,
                 use: [
                     { loader: 'babel-loader', options: { babelrc: true }},
-                    // { loader: 'ts-loader', options: { configFile: 'tsconfig.json' } },
                 ]
             },
             {
@@ -48,26 +45,14 @@ module.exports = {
                     }
                 ]
             },
-            {
-                test: /\.s[ac]ss$/i,
-                exclude: /node_modules/,
-                use: [
-                  MiniCssExtractPlugin.loader,
-                  "css-loader",
-                  "postcss-loader",
-                  "sass-loader",
-                ],
-              },
         ]
     },
     optimization: {
         minimizer: [
           new TerserPlugin({parallel: true}),
-          new CssMinimizerPlugin(),
         ],
       },
     plugins: [
-        new MiniCssExtractPlugin(),
         new HtmlWebpackPlugin({
             template: './public/index.html'
         }),

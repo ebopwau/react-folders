@@ -5,6 +5,7 @@
     ["@babel/env", { "modules": "auto" }]
   ],
   "plugins": [
+    "babel-plugin-styled-components",
     [
       "module-resolver",
       {

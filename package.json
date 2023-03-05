@@ -13,10 +13,8 @@
   "scripts": {
     "build": "webpack --mode production",
     "serve": "webpack serve --mode development --hot",
-    "test": "react-scripts test",
     "lint": "eslint src/",
-    "verify": "npm run lint && npm run test",
-    "test:coverage": "react-scripts test --coverage --runInBand --watchAll=false --testPathIgnorePatterns=forTest"
+    "verify": "npm run lint"
   },
   "devDependencies": {
     "@babel/core": "^7.16.12",

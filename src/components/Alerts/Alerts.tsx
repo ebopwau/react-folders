@@ -1,16 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback, useEffect, useState, useMemo,
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { selectors, actions } from 'store/alert';
 import { ExitCodes } from 'store/alert/types';
 import { NodeActionType } from 'types';
-import { AlertContainer, AlertModal } from './AlertContainer.styled';
+import {
+  AlertContainer, AlertModal, InputContainer, Label, Button,
+} from './AlertContainer.styled';
 
 export const Alerts = () => {
   const dispatch = useDispatch();
   const alert = useSelector(selectors.selectAlert);
 
   const [inputValue, setInputValue] = useState<string>('');
+  const [isInputFocused, toggleInputFocus] = useState(false);
 
   const onConfirm = useCallback(() => {
     const { type } = alert || {};
@@ -26,6 +31,8 @@ export const Alerts = () => {
     dispatch(actions.hide({ initialState: null, exitCode: ExitCodes.cancel }));
   }, [dispatch]);
 
+  const isLabelOnTop = useMemo<boolean>(() => !!inputValue.length || isInputFocused, [inputValue, isInputFocused]);
+
   useEffect(() => {
     const { type } = alert || {};
 
@@ -37,7 +44,7 @@ export const Alerts = () => {
   if (!alert) return null;
 
   const {
-    title, contentMessage, confirmButtonText, cancelButtonText, options,
+    title, contentMessage, confirmButtonText, cancelButtonText, options, type,
   } = alert;
 
   const { inputLabelText, showInput } = options || {};
@@ -52,13 +59,36 @@ export const Alerts = () => {
           { contentMessage ? (<p>{ contentMessage }</p>) : null }
           {
             showInput ? (
-              <input type="text" value={inputValue} onChange={({ target }) => { setInputValue(target.value); }} placeholder={inputLabelText as string} />
+              <InputContainer>
+                <Label htmlFor="modal-input" isOnTop={isLabelOnTop}>{ inputLabelText }</Label>
+                <input
+                  id="modal-input"
+                  type="text"
+                  autoComplete="off"
+                  value={inputValue}
+                  onChange={({ target }) => { setInputValue(target.value); }}
+                  onFocus={() => toggleInputFocus(true)}
+                  onBlur={() => toggleInputFocus(false)}
+                />
+              </InputContainer>
             ) : null
           }
         </div>
         <footer>
-          <button onClick={onCancel} type="button">{cancelButtonText || 'cancel'}</button>
-          <button onClick={onConfirm} type="button">{confirmButtonText || 'confirm'}</button>
+          <Button
+            buttonType="secondary"
+            onClick={onCancel}
+            type="button"
+          >
+            {cancelButtonText || 'cancel'}
+          </Button>
+          <Button
+            buttonType={type === NodeActionType.deleteNode ? 'delete' : 'primary'}
+            onClick={onConfirm}
+            type="button"
+          >
+            {confirmButtonText || 'confirm'}
+          </Button>
         </footer>
       </AlertModal>
     </AlertContainer>

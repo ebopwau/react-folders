@@ -13,6 +13,6 @@ export type IRootState = ReturnType<typeof reducer>;
 
 export default createStore({
   reducer,
-  sagas: [],
+  sagas: [...folder.sagas],
   middleware: [],
 });

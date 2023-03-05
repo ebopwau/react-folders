@@ -4,7 +4,7 @@ import { AlertState, AlertHidePayload } from './types';
 
 const initialState = null as AlertState;
 
-const { actions, reducer } = createSlice({
+const { actions: alertActions, reducer } = createSlice({
   name: 'alert',
   initialState,
   reducers: {
@@ -12,5 +12,9 @@ const { actions, reducer } = createSlice({
     hide: (_, { payload }: PayloadAction<AlertHidePayload>) => payload.initialState,
   },
 });
+
+const actions = {
+  ...alertActions,
+};
 
 export { actions, reducer };

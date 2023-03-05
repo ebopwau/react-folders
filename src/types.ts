@@ -3,3 +3,9 @@ export interface TData {
     name: string,
     children: TData[]
 }
+
+export enum NodeActionType {
+    addNode = 'ADD',
+    renameNode = 'RENAME',
+    deleteNode = 'DELETE'
+}

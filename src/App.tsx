@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
-import { Provider } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import store from 'store';
-import { Folder } from 'components';
-import { TData } from './types';
-import mock from './mock.json';
+import { actions, selectors } from 'store/folder';
+import { Alerts, Folder } from 'components';
+import { rootTreeName } from './consts';
 
 export const App = () => {
-  const [data] = useState<TData>(mock as TData);
+  const dispatch = useDispatch();
+  const data = useSelector(selectors.getFolderData);
+
+  useEffect(() => {
+    dispatch(actions.fetchFolderTree(rootTreeName));
+  }, [dispatch]);
 
   return (
-    <Provider store={store}>
-      <main>
-        <Folder data={data} />
-      </main>
-    </Provider>
+    <main>
+      <Alerts />
+      <Folder data={data} />
+    </main>
   );
 };

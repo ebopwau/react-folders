@@ -1,11 +1,12 @@
 import React, {
-  FC, useCallback, useState, useRef, MouseEventHandler,
+  FC, useCallback, useState, MouseEventHandler,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { selectors, actions } from 'store/folder';
 import { TData } from 'types';
-import { FolderContainer, Arrow } from './Folder.styled';
+import { IconGroup } from 'components';
+import { FolderContainer, Arrow, Content } from './Folder.styled';
 
 type TFolder = {
     data: TData
@@ -13,43 +14,37 @@ type TFolder = {
 
 export const Folder: FC<TFolder> = ({ data }) => {
   const dispatch = useDispatch();
-  const selectedFolder = useSelector(selectors.selectedFolderID);
+  const currentSelected = useSelector(selectors.selectedFolderID);
 
   const [isOpen, toggleOpen] = useState(false);
-  const { name, children, id } = data;
+  const { name, children = [], id } = data || {};
 
-  const containerRef = useRef(null);
-  const arrowRef = useRef(null);
-  const textRef = useRef(null);
+  const isSelected = currentSelected === id;
 
-  const clickedOnFolder = useCallback((target: EventTarget) => (target === containerRef.current || target === arrowRef.current || target === textRef.current), []);
-
-  const onClick: MouseEventHandler<HTMLDivElement> = useCallback(({ target }) => {
-    if (clickedOnFolder(target)) {
-      dispatch(actions.setSelectedId({ selectedId: id }));
-    }
+  const onClick: MouseEventHandler<HTMLDivElement> = useCallback((e) => {
+    e.stopPropagation();
+    dispatch(actions.setSelectedId(id));
 
     if (!children.length) return;
-
-    if (clickedOnFolder(target)) {
-      toggleOpen(!isOpen);
-    }
-  }, [children.length, clickedOnFolder, dispatch, id, isOpen]);
+    toggleOpen(!isOpen);
+  }, [children.length, dispatch, id, isOpen]);
 
   return (
-    <FolderContainer ref={containerRef} selected={id === selectedFolder} onClick={onClick} aria-hidden="true">
-      {
-        children.length ? (
-          <Arrow
-            isOpen={isOpen}
-            width={20}
-            height={20}
-            ref={arrowRef}
-          />
-        ) : null
-      }
+    <FolderContainer onClick={onClick} aria-hidden="true">
+      <Content selected={isSelected}>
+        <Arrow
+          $isOpen={isOpen}
+          $visible={!!children.length}
+          width={20}
+          height={20}
+        />
 
-      <span ref={textRef}>{ name }</span>
+        <div>{ name }</div>
+
+        {
+        isSelected ? <IconGroup nodeID={id} nodeName={name} /> : null
+       }
+      </Content>
 
       {
         isOpen ? (children || []).map((itemData) => <Folder key={itemData.id} data={itemData} />) : null
